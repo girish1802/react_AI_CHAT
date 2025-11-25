@@ -1,14 +1,24 @@
 import React from 'react'
 
 export default function RecentSearch({QuestionHistory,SetQuestionHistory,SetselectedHistory}) {
-    const clearHistory = () => {
+  const clearHistory = () => {
     localStorage.clear();
     SetQuestionHistory([]);
   };
+
   return (
     <>
-     <div className="col-span-1 dark:bg-zinc-700 dark:text-white bg-red-100 text-zinc-700 p-4">
-        <h1 className="text-xl   font-semibold mb-4 border-b border-zinc-600 pb-2 flex justify-center">
+      <div
+        className="
+          col-span-1 
+          dark:bg-zinc-700 dark:text-white 
+          bg-red-100 text-zinc-700 p-4 
+          w-full 
+          h-auto md:h-screen 
+          overflow-auto
+        "
+      >
+        <h1 className="text-xl font-semibold mb-4 border-b border-zinc-600 pb-2 flex justify-center">
           <span> Recent Search</span>
           <button className="cursor-pointer" onClick={clearHistory}>
             <svg
@@ -25,11 +35,16 @@ export default function RecentSearch({QuestionHistory,SetQuestionHistory,Setsele
 
         <ul className="space-y-2">
           {QuestionHistory &&
-            QuestionHistory.map((item,index) => (
+            QuestionHistory.map((item, index) => (
               <li
-              key={index}
+                key={index}
                 onClick={() => SetselectedHistory(item)}
-                className="text-left truncate px-3 dark:bg-zinc-700 rounded-lg dark:hover:bg-zinc-600 hover:bg-red-200 cursor-pointer transition-all"
+                className="
+                  text-left truncate px-3 
+                  dark:bg-zinc-700 rounded-lg 
+                  dark:hover:bg-zinc-600 hover:bg-red-200 
+                  cursor-pointer transition-all
+                "
               >
                 {item}
               </li>
@@ -37,5 +52,5 @@ export default function RecentSearch({QuestionHistory,SetQuestionHistory,Setsele
         </ul>
       </div>
     </>
-  )
+  );
 }

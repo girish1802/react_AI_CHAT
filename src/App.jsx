@@ -52,12 +52,12 @@ function App() {
     const response = await fetch(URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // important for JSON payload
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload), // ensure payload is stringified
+      body: JSON.stringify(payload),
     });
 
-    const data = await response.json(); // parse the JSON response
+    const data = await response.json();
     let dataString = data.candidates[0].content.parts[0].text;
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim());
@@ -81,23 +81,27 @@ function App() {
       askQuestion();
     }
   };
+
   useEffect(() => {
     askQuestion();
   }, [selectedHistory]);
+
   // darkmode
-  const [darkMode, setDarkMode] = useState('dark');
+  const [darkMode, setDarkMode] = useState("dark");
   useEffect(() => {
-    console.log(darkMode)
-    if (darkMode == 'dark') {
-      document.documentElement.classList.add('dark')
+    console.log(darkMode);
+    if (darkMode == "dark") {
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
 
   return (
-    <div className={darkMode == 'dark' ? 'dark' : 'light'}>
-      <div className="grid grid-cols-5 h-screen w-screen text-center ">
+    <div className={darkMode == "dark" ? "dark" : "light"}>
+      <div className="grid grid-cols-1 md:grid-cols-5 h-screen w-screen text-center">
+
+        {/* Dark mode switch */}
         <select
           onChange={(event) => setDarkMode(event.target.value)}
           className="fixed dark:text-white text-zinc-800 bottom-0 p-5 dark:bg-zinc-700 bg-red-100"
@@ -105,21 +109,23 @@ function App() {
           <option value="dark">Dark</option>
           <option value="light">Light</option>
         </select>
-        {/* Left Section */}
+
+        {/* LEFT SECTION */}
         <RecentSearch
           QuestionHistory={QuestionHistory}
           SetQuestionHistory={SetQuestionHistory}
           SetselectedHistory={SetselectedHistory}
         />
 
-        {/* Right Section */}
-        <div className="col-span-4  p-4 flex flex-col justify-center items-center gap-4 ">
+        {/* RIGHT SECTION */}
+        <div className="col-span-4 p-4 flex flex-col justify-center items-center gap-4 w-full">
           {heading ? (
-            <h1 className="text-4xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-700 to-violet-700">
+            <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-700 to-violet-700">
               Hello User, Ask me Anything
             </h1>
           ) : null}
 
+          {/* Loader */}
           {loader ? (
             <div role="status">
               <svg
@@ -141,10 +147,11 @@ function App() {
               <span className="sr-only">Loading...</span>
             </div>
           ) : null}
+
+          {/* Chat container */}
           <div
             ref={scrollToAns}
-            className="container h-100 w-full text-zinc-300 overflow-auto overflow-scroll"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="container h-full w-full text-zinc-300 overflow-auto"
           >
             <ul>
               {Result.map((item, index) => (
@@ -153,19 +160,19 @@ function App() {
             </ul>
           </div>
 
-          {/* Input Section */}
-          <div className="flex w-full max-w-xl  dark:text-white text-zinc-800 dark:bg-zinc-700 bg-red-100 rounded-3xl overflow-hidden">
+          {/* INPUT BAR */}
+          <div className="flex w-full max-w-xl dark:text-white text-zinc-800 dark:bg-zinc-700 bg-red-100 rounded-3xl overflow-hidden mx-auto px-2">
             <input
               onKeyDown={isEnter}
               value={Question}
               onChange={(e) => SetQuestion(e.target.value)}
               type="text"
-              className="flex-1 p-3  focus:outline-none"
+              className="flex-1 p-3 focus:outline-none"
               placeholder="Ask me anything..."
             />
             <button
               onClick={askQuestion}
-              className="px-6  dark:hover:bg-zinc-600 hover:bg-red-300"
+              className="px-6 dark:hover:bg-zinc-600 hover:bg-red-300"
             >
               Ask
             </button>
